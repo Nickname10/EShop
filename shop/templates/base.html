@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static '/css/main.css' %}">
+    <script src="{% static 'js/main.js' %}"  defer></script>
+    {% block title %}
+    {% endblock %}
+</head>
+<body>
+{% if User.is_authenticated %}
+    <header>
+        <div class="username">Привет, {{ User.username }}</div>
+        <div class="logout"><a href="http://127.0.0.1:8000/shop/logout" class="logout-link">Выйти</a></div>
+    </header>
+
+{% else %}
+    <header>
+        <div class="login"> <a href="http://127.0.0.1:8000/shop/login" class="login-link">Войти</a></div>
+        <div class="register"><a href="http://127.0.0.1:8000/shop/register" class="login-link">Зарегистрироваться</a></div>
+    </header>
+{% endif %}
+
+{% block main %}
+{% endblock %}
+<footer></footer>
+</body>
+</html>

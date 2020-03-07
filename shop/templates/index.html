@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>Главная</title>
+{% endblock %}
+{% block main %}
+    <div class="items-box">
+        {% for item in Items %}
+            <div class="item">
+                {% if item.image %}
+                    <div class="item-img-box">
+                        <img src="{{ item.image.url }}" class="item-img" alt="err">
+                    </div>
+                {% endif %}
+                <div class="item-title">
+                    {{ item.title }}
+                </div>
+                <div class="item-description">
+                    {{ item.short_description }}
+                </div>
+                <div class="item-price">
+                    {{ item.price }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <div class="next-ten">
+            Показать следующие 10 товаров
+        </div>
+        <div class="previous-ten">
+            Показать предыдущие 10 товаров
+        </div>
+    </div>
+{% endblock %}

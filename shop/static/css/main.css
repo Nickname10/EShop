@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+header {
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 22px;
+    background: grey;
+}
+
+.username {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bolder;
+}
+
+.login {
+
+    width: 100px;
+    color: black;
+}
+
+.login-link {
+    color: black;
+}
+
+.login-link:hover {
+    color: red;
+}
+
+.register {
+    width: 250px;
+}
+
+.register-link {
+    color: black;
+}
+
+.register-link:hover {
+    color: red;
+}
+
+.logout {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+.logout-link {
+    color: black;
+}
+
+.logout-link:hover {
+    color: red;
+}
+
+.items-box {
+    display: flex;
+    height: 80vh;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 300px;
+    width: 300px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.item-title {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.item-description {
+    font-size: 20px;
+    text-align: center;
+}
+
+.item-price {
+    font-size: 18px;
+
+}
+.item-price:after{
+    content: ' руб.';
+}
+
+.item-img {
+    height: 150px;
+    width: 200px;
+}
+
+.next-ten{
+    border: 1px solid green;
+}
+.previous-ten{
+    border: 1px solid red;
+}
