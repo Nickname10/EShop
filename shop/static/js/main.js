@@ -1,13 +1,9 @@
 const buttonNextTen = document.querySelector('.next-ten');
 const buttonPreviousTen = document.querySelector('.previous-ten');
-let currentPage = 0;
-
-buttonNextTen.addEventListener("click", () => {
-    HTTP.Get(String(++currentPage));
-});
-buttonPreviousTen.addEventListener("click", () => {
-    HTTP.Get((String(--currentPage)));
-});
+cartLinkAdd();
+var currentPage = 0;
+buttonNextTen.addEventListener("click", () =>{currentPage++; renderRequest(); });
+buttonPreviousTen.addEventListener("click",()=>{currentPage--; renderRequest()});
 
 class HTTP {
     constructor() {
@@ -22,47 +18,199 @@ class HTTP {
         throw error;
     }
 
-    static Get(url) {
+    static Get(url, fun) {
 
         return fetch(url).then(this.checkStatus).then((response) =>
-            response.json()).then(data => ShowItems(data));
+            response.json()).then(data => fun(data));
     }
 }
 
 function ShowItems(data) {
     document.querySelector('.items-box').innerHTML = "";
-    console.log(data['Items'].forEach(item => {
-        let cardItem = document.createElement('div');
-        let title = document.createElement('div');
-        let itemPrice = document.createElement('div');
-        let itemDescription = document.createElement('div');
-        let itemImageBox = document.createElement('div');
-        let image = document.createElement('img');
 
-        cardItem.classList.add('item');
-        title.classList.add('item-title');
-        itemPrice.classList.add('item-price');
-        itemDescription.classList.add('item-description');
-        itemImageBox.classList.add('item-img-box');
-        image.classList.add('item-img');
+    data['Items'].forEach(item => {
+        let divRow = document.createElement("div");
+        let divCols12m6rowItems = document.createElement("div");
+        let divCard = document.createElement("div");
+        let divCardImage = document.createElement("div");
+        let aModalTrigger = document.createElement("a");
+        let itemImageMaterialBoxed = document.createElement("img");
+        let divModal = document.createElement("div");
+        let divModalContent = document.createElement("div");
+        let divModalContentSource = document.createElement("div");
+        let divModalImg = document.createElement("div");
+        let divSourceInfo = document.createElement("div");
+        let divSourceTitle = document.createElement("div");
+        let divSourceCost = document.createElement("div");
+        let spanSourceCost = document.createElement("span");
+        let divSourceBrand = document.createElement("div");
+        let spanSourceBrand = document.createElement("span");
+        let divModalDescTitle = document.createElement("div");
+        let divModalDescription = document.createElement("div");
+        let divModalComment = document.createElement("div");
+        let divCommentTitle = document.createElement("div");
+        let divCommentForm = document.createElement("div");
+        let divRowCommentField = document.createElement("div");
+        let formColS12 = document.createElement("form");
+        let divRowCommentFieldUnderForm = document.createElement("div");
+        let divInputFieldColS6 = document.createElement("div");
+        let iMaterialIconsPrefix = document.createElement("i");
+        let textAreaIconPrefix = document.createElement("textarea");
+        let labelIconPrefix = document.createElement("label");
+        //  let divModalCommentItems = document.createElement("div");
+        // need render comment between for and endfor
+        let divModalFooter = document.createElement("div");
+        let aModalCloseWaveEffect = document.createElement("a");
+        let spanCardTitle = document.createElement("span");
+        let aBtnFloatingHalfway = document.createElement("a");
+        let iMaterialIcons = document.createElement("i");
+        let divCardContent = document.createElement("div");
+        let pShortDescription = document.createElement("p");
+        document.querySelector(".items-box").appendChild(divRow);
 
-        image.setAttribute('src','/media/'+ item.image);
-        image.setAttribute('alt','');
+        divRow.appendChild(divCols12m6rowItems);
+        divCols12m6rowItems.appendChild(divCard);
+        divCard.appendChild(divCardImage);
+        divCard.appendChild(divCardContent);
+        divCardImage.appendChild(aModalTrigger);
+        divCardImage.appendChild(itemImageMaterialBoxed);
+        divCardImage.appendChild(divModal);
+        divCardImage.appendChild(spanCardTitle);
+        divCardImage.appendChild(aBtnFloatingHalfway);
 
-        itemImageBox.appendChild(image);
+        aBtnFloatingHalfway.appendChild(iMaterialIcons);
+        divModal.appendChild(divModalContent);
+        divModal.appendChild(divModalFooter);
+        divModalFooter.appendChild(aModalCloseWaveEffect)
+        divModalContent.appendChild(divModalContentSource);
+        divModalContent.appendChild(divModalDescTitle);
+        divModalContent.appendChild(divModalDescription);
+        divModalContent.appendChild(divModalComment);
+        divModalContentSource.appendChild(divModalImg);
+        divModalContentSource.appendChild(divSourceInfo);
+        divSourceInfo.appendChild(divSourceTitle);
+        divSourceInfo.appendChild(divSourceCost);
+        divSourceInfo.appendChild(divSourceBrand);
+        divSourceCost.appendChild(spanSourceCost);
+        divSourceBrand.appendChild(spanSourceBrand);
+        divModalComment.appendChild(divCommentTitle);
+        divModalComment.appendChild(divCommentForm);
+        divCommentForm.appendChild(divRowCommentField);
+        divRowCommentField.appendChild(formColS12);
+        formColS12.appendChild(divRowCommentFieldUnderForm);
+        divRowCommentFieldUnderForm.appendChild(divInputFieldColS6);
+        divInputFieldColS6.appendChild(iMaterialIconsPrefix);
+        divInputFieldColS6.appendChild(textAreaIconPrefix);
+        divInputFieldColS6.appendChild(labelIconPrefix);
+        divCardContent.appendChild(pShortDescription);
 
-        title.textContent = item.title;
-        itemPrice.textContent = item.price;
-        itemDescription.textContent = item.description;
+        divRow.classList.add("row");
+        divCols12m6rowItems.classList.add("col", "s12", "m6", "row-items");
+        divCard.classList.add("card");
+        divCardImage.classList.add("card-image");
+        aModalTrigger.classList.add("waves-effect", "waves-light", "btn", "modal-trigger");
+        itemImageMaterialBoxed.classList.add("materialboxed");
+        divModal.classList.add("modal");
+        divModalContent.classList.add("modal-content");
+        divModalContentSource.classList.add("modal-content-source");
+        divModalImg.classList.add("modal-img");
+        divSourceInfo.classList.add("source-info");
+        divSourceTitle.classList.add("source-title");
+        divSourceCost.classList.add("source-cost");
+        divSourceBrand.classList.add("source-brand");
+        divModalDescTitle.classList.add("modal-desc-title");
+        divModalDescription.classList.add("modal-description");
+        divModalComment.classList.add("modal-comment");
+        divCommentTitle.classList.add("comment-title");
+        divCommentForm.classList.add("comment-form");
+        divRowCommentField.classList.add("row");
+        divRowCommentField.id = "comment-field";
+        formColS12.classList.add("col", "s12");
+        divInputFieldColS6.classList.add("input-field", "col", "s6");
+        divInputFieldColS6.id = "ww";
+        divRowCommentFieldUnderForm.classList.add("row");
+        divRowCommentField.id = "ww";
+        iMaterialIconsPrefix.classList.add("material-icons", "prefix");
+        textAreaIconPrefix.id = "icon_prefix2";
+        textAreaIconPrefix.classList.add("materialize-textarea");
+        divModalFooter.classList.add("modal-footer");
+        aModalCloseWaveEffect.classList.add("modal-close", "waves-effect", "waves-green", "btn-flat");
+        spanCardTitle.classList.add("card-title");
+        aBtnFloatingHalfway.classList.add("btn-floating", "halfway-fab", "waves-effect", "waves-light", "red", "js-add-cart");
+        iMaterialIcons.classList.add("material-icons");
+        divCardContent.classList.add("card-content");
 
-        cardItem.appendChild(itemImageBox);
-        cardItem.appendChild(title);
-        cardItem.appendChild(itemDescription);
-        cardItem.appendChild(itemPrice);
+        aModalTrigger.href = "#i" + item.id; // айтем айди будет получин возже item.id
+        itemImageMaterialBoxed.src = "/media/" + item.image;//item.image.url
+        divModal.id = "i" + item.id;
+        divModalImg.style.background = "url('/media/' " + item.image + ") no-repeat;";
+        divModalImg.style.backgroundSize = "contain;";
+        divModalImg.style.width = "600px;";
+        spanCardTitle.textContent = item.title;
+        aBtnFloatingHalfway.setAttribute("value", item.id)
 
-        document.querySelector('.items-box').appendChild(cardItem);
-
-    }));
+        aModalTrigger.textContent = "More";
+        divSourceTitle.textContent = item.title;
+        divSourceCost.textContent = "Cost : ";
+        spanSourceCost.textContent = item.price;
+        divSourceBrand.textContent = "Brand: ";
+        spanSourceBrand.textContent = item.brand;
+        pShortDescription.textContent = item.short_description;
+        divModalDescTitle.textContent = "Description";
+        divModalDescription.textContent = item.long_description;
+        divCommentTitle.textContent = "Comments :";
+        iMaterialIcons.textContent = "add";
+        iMaterialIconsPrefix.textContent = "mode_edit";
+        cartLinkAdd();
+    })
 
 }
 
+
+let slider = document.getElementById('test-slider');
+noUiSlider.create(slider, {
+    start: [10, 90],
+    connect: true,
+    step: 1,
+    orientation: 'horizontal', // 'horizontal' or 'vertical'
+    range: {
+        'min': 0,
+        'max': 100
+    },
+});
+
+
+function cartLinkAdd() {
+    let linksAdd = document.getElementsByClassName("js-add-cart");
+    for (let i = 0; i < linksAdd.length; i++) {
+        linksAdd[i].addEventListener("click", () => {
+            HTTP.Get("cart/add/" + linksAdd[i].getAttribute("value"), checkResponseAdd);
+        })
+    }
+
+}
+
+function checkResponseAdd(data) {
+    //Добавить функцию которая выведет, что элемент успешно добавлен в корзину
+
+}
+
+document.querySelector('.btn-fitler-mobile').addEventListener('click', () => {
+    document.querySelector('.filter').classList.toggle('filter-active');
+});
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.materialboxed');
+    var instances = M.Materialbox.init(elems);
+});
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+});
+
+document.querySelector('.cart-open').addEventListener('click',()=>{
+    //написать запрос и json
+  document.querySelector('.user-cabinet').classList.toggle('disable');
+})
+document.querySelector('.cart-close').addEventListener('click',()=>{
+  document.querySelector('.user-cabinet').classList.toggle('disable')
+})

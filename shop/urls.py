@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, include
 
 from . import views
 
@@ -10,5 +10,10 @@ urlpatterns = [
     path('logout/', views.LogoutClickView.as_view(), name='logout'),
     path('<int:page>/', views.showNext),
     path('item/<int:id>/', views.showItem),
+    path('item/<int:id>/comment/', views.addComment, name='comment'),
+    path('cart/', include('cart.urls')),
+    path('show/', views.showItems),
+
+    # path('place_search/', views.pas, name='place_search'),
 
 ]

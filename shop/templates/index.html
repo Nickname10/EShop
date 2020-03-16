@@ -1,35 +1,259 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block title %}
-    <title>Главная</title>
+    <title>hello</title>
 {% endblock %}
 {% block main %}
-    <div class="items-box">
-        {% for item in Items %}
-            <div class="item">
-                {% if item.image %}
-                    <div class="item-img-box">
-                        <img src="{{ item.image.url }}" class="item-img" alt="err">
-                    </div>
-                {% endif %}
-                <div class="item-title">
-                    {{ item.title }}
-                </div>
-                <div class="item-description">
-                    {{ item.short_description }}
-                </div>
-                <div class="item-price">
-                    {{ item.price }}
+    <a class="waves-effect waves-light btn-large btn-fitler-mobile">Filter</a>
+    <ul class=" with-header line-items">
+        {% for category in Categories %}
+            <li class="collection-item">
+                <p> {{ category.name }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="main-box">
+        <div class="filter filter-box">
+            <!--New element-->
+            <div class="filter-title">
+                <h5>Filter</h5>
+            </div>
+            <div class="filter-noUiSlider">
+                <div id="test-slider"></div>
+            </div>
+            <div class="filter-discount">
+                <p>Discount</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" class="js-input-filter">
+                        <span class="lever"></span>
+                        On
+                    </label>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    <div>
-        <div class="next-ten">
-            Показать следующие 10 товаров
+            <div class="filter-new">
+                <p>New</p>
+                <div class="switch">
+                    <label>
+                        Off
+                        <input type="checkbox" class="js-input-filter">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+            </div>
+            <div class="filter-select">
+                <p>Brand</p>
+                <form action="#">
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in js-input-filter" value="AD"/>
+                            <span>Adidas</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in js-input-filter" value="NI"/>
+                            <span>Nike</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in js-input-filter" value="PU"/>
+                            <span>Puma</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in js-input-filter" value="FI"/>
+                            <span>FILA</span>
+                        </label>
+                    </p>
+
+                </form>
+            </div>
+            <div class="filter-size">
+                <p>Size</p>
+                <form action="#" class="form-size">
+                    <div class="size-column">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="34"/>
+                                <span>34</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="35"/>
+                                <span>35</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="36"/>
+                                <span>36</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="37"/>
+                                <span>37</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="38"/>
+                                <span>38</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="39"/>
+                                <span>39</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="size-column">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="40"/>
+                                <span>40</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="41"/>
+                                <span>41</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="42"/>
+                                <span>42</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="43"/>
+                                <span>43</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="44"/>
+                                <span>44</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in js-input-filter" value="45"/>
+                                <span>45</span>
+                            </label>
+                        </p>
+                    </div>
+                </form>
+            </div>
+            <button class="btn waves-effect waves-light filter-sumbit" id="js-submit-form" type="submit" name="action">
+                Submit
+                <i class="material-icons right">send</i>
+            </button>
+            <!--/ New element-->
         </div>
-        <div class="previous-ten">
-            Показать предыдущие 10 товаров
+
+        <div class="items-box">
+            {% for item in Items %}
+
+                <div class="row">
+                    <div class="col s12 m6 row-items">
+                        <div class="card">
+                            <div class="card-image">
+                                <a class="waves-effect waves-light btn modal-trigger" href="#i{{ item.id }}">More</a>
+
+                                <img class="materialboxed" src="{{ item.image.url }}">
+                                <!-- Modal Trigger -->
+
+                                <!-- Modal Structure -->
+                                <div id="i{{ item.id }}" class="modal">
+                                    <div class="modal-content">
+                                        <div class="modal-content-source">
+                                            <div class="modal-img"
+                                                 style='background: url("{{ item.image.url }}") no-repeat;
+                                                         background-size: contain;
+                                                         width: 600px;
+                                                         '></div>
+
+                                            <div class="source-info">
+                                                <div class="source-title"> {{ item.title }}</div>
+                                                <div class="source-cost">Cost : <span>{{ item.price }}</span> $</div>
+                                                <div class="source-brand">Brand : <span>{{ item.Brand }}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-desc-title">Description</div>
+                                        <div class="modal-description">
+                                            {{ item.long_description }}
+                                        </div>
+                                        <div class="modal-comment">
+                                            <div class="comment-title">Comments:</div>
+                                            <div class="comment-form">
+                                               <!-- <div class="row " id="comment-field"> -->
+                                                    <form class="col s12">
+                                                       <!-- <div class="row" id="comment-field">-->
+                                                            <div class="input-field col s6" id="ww">
+                                                                <i class="material-icons prefix">mode_edit</i>
+                                                                <textarea id="icon_prefix2"
+                                                                          class="materialize-textarea"></textarea>
+                                                                <label for="icon_prefix2">Your comment</label>
+                                                            </div>
+                                                      <!--  </div> -->
+                                                    </form>
+                                               <!-- </div> -->
+                                            </div>
+                                            <div class="modal-comment-items">
+                                                {% for  comment in item.comments.all%}
+                                                    <div class="comment-item">
+                                                        <div class="comment-item-info"><img id="comment-item-logo"
+                                                                                            width="40px" height="0"
+                                                                                            src="{{ comment.profile.photo.url }}"
+                                                                                            alt="">
+                                                            <p class="comment-nickname">{{ comment.user.nickname }}</p>
+                                                        </div>
+                                                        <div class="comment-info">{{ comment.text }}
+                                                        </div>
+                                                        <div class="comment-date">{{ comment.date }}</div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                                    </div>
+                                </div>
+                                <span class="card-title">{{ item.title }}</span>
+                                <a class="btn-floating halfway-fab waves-effect waves-light red js-add-cart" value={{ item.id }} ><i
+                                        class="material-icons">add</i></a>
+                            </div>
+                            <div class="card-content">
+                                <p>{{ item.short_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
         </div>
     </div>
+    <div class="btn-box">
+        <div class="previous-ten btn">
+            <i class="material-icons">chevron_left</i>
+
+        </div>
+        <div class="next-ten btn">
+            <i class="material-icons">chevron_right</i>
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+
 {% endblock %}

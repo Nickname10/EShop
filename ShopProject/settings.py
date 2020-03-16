@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
-    'crispy_forms'
+    'cart.apps.CartConfig',
+    'crispy_forms',
+    'phonenumber_field'
+
 
 ]
 
@@ -116,8 +119,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "/shop/static")
 ]
@@ -126,3 +127,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CART_SESSION_ID = 'cart'

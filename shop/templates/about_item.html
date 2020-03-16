@@ -5,5 +5,25 @@
     <h1>
     {{ Item.title }}
     </h1>
-    
+    {% if  User.is_authenticated %}
+      <form action="comment/" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Your message"
+                       name="message"/>
+                <div class="input-group-append">
+                    <input class="btn btn-success"
+                           type="submit"
+                           value="Send"/>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+    <div>Комментарии: </div>
+    {% for comm in Comment %}
+        <h3>{{ comm.user }} {{ comm.date }}<br>{{ comm.text }}</h3>
+    {% endfor %}
+
 {% endblock %}
