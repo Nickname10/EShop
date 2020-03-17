@@ -185,7 +185,7 @@
                                             <div class="source-info">
                                                 <div class="source-title"> {{ item.title }}</div>
                                                 <div class="source-cost">Cost : <span>{{ item.price }}</span> $</div>
-                                                <div class="source-brand">Brand : <span>{{ item.Brand }}</span></div>
+                                                <div class="source-brand">Brand : <span>{{ item.Brand}}</span></div>
                                             </div>
                                         </div>
                                         <div class="modal-desc-title">Description</div>
@@ -229,7 +229,10 @@
                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
                                     </div>
                                 </div>
-                                <span class="card-title">{{ item.title }}</span>
+                               <span class="card-title">
+                                  <span class="card-title-name">{{ item.title }}</span>
+                                  <span class="card-cost">{{ item.price }}$</span>
+                                </span>
                                 <a class="btn-floating halfway-fab waves-effect waves-light red js-add-cart" value={{ item.id }} ><i
                                         class="material-icons">add</i></a>
                             </div>

@@ -201,8 +201,14 @@ nav{
 .cart-submit{
     margin-top: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+}
+.btn-large{
+    margin-bottom: 11px;
+}
+.disable{
+    display: none;
 }
 .user-cart-items{
     width: 100%;
@@ -308,7 +314,11 @@ nav{
     display: flex;
 
 }
-
+.modal-img{
+    width: 600px;
+    background: url(./img/11.jpg) no-repeat;
+    background-size: contain;
+}
 .source-info{
     font-size: 30px;
     width: 100%;
@@ -356,7 +366,10 @@ nav{
 }
 .modal-comment-items{
     height: 100px;
-    overflow: auto;
+
+}
+.card-content{
+    word-break: break-all;
 }
 #comment-item-logo{
   height: 40px;
@@ -391,11 +404,30 @@ nav{
     }
 
 }
-.btn-large{
-    margin-bottom: 11px;
+.card-title
+{
+
+    display: flex;
+    flex-direction: column;
+    padding: 18px !important;
 }
-.disable{
-    display: none;
+.card-cost{
+    color: #F44336;
+    font-weight: 600;
+}
+.input-field{
+    display: flex;
+    align-items: center;
+}
+.sumbit-comment{
+    margin-left:30px;
+}
+.delete-cart-item{
+    cursor: pointer;
+
+}
+.delete-cart-item:hover{
+    color:red;
 }
 @media screen and (max-width:992px){
 

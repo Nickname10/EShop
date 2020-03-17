@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.views import LogoutView
@@ -76,7 +77,7 @@ def showItems(request):
     page = int(request.GET.get("Page"))
     print("PAGEEEE " + str(page))
     return JsonResponse({'Items': list(
-        result_response.values('id', 'title', 'image', 'short_description', 'price')[page * 9:(page + 1) * 9])})
+        result_response.values('id', 'title', 'image','Brand', 'short_description','long_description', 'price')[page * 9:(page + 1) * 9])})
 
 
 def showNext(request, page):
