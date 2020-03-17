@@ -9,3 +9,4 @@ admin.site.register(Category)
 admin.site.register(SizeAndAvailable)
 admin.site.register(Profile)
 admin.site.register(WishItem)
+

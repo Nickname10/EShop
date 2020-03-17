@@ -62,11 +62,10 @@ class Order(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    country = models.CharField(max_length=2, choices=COUNTRIES)
+    country = models.CharField(max_length=2, choices=COUNTRIES, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/', blank=True, default='users/default.png')
     phone_number = PhoneNumberField(blank=True)
-
     def __str__(self):
         return f'Profile for user {self.user.username}'
 
@@ -82,8 +81,8 @@ class Comment(models.Model):
 
 
 class WishItem(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    itemId = models.IntegerField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='wishedItems', null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
 
 
 @receiver(post_save, sender=User)

@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'crispy_forms',
-    'phonenumber_field'
-
+    'phonenumber_field',
+   # 'cabinet.apps.CabinetConfig'
 
 ]
 
@@ -58,8 +58,10 @@ ROOT_URLCONF = 'ShopProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'shop/templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'shop/templates'),
+                 os.path.join(BASE_DIR, 'cabinet/templates')
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +122,8 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "/shop/static")
+    os.path.join(BASE_DIR, "/shop/static"),
+    os.path.join(BASE_DIR, "cabinet/static")
 ]
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -76,8 +76,15 @@ def showItems(request):
         result_response = result_response.filter(sizeandavailable__foot_size__in=request.GET.getlist("Sizes"))
     page = int(request.GET.get("Page"))
     print("PAGEEEE " + str(page))
-    return JsonResponse({'Items': list(
-        result_response.values('id', 'title', 'image','Brand', 'short_description','long_description', 'price')[page * 9:(page + 1) * 9])})
+    result_comments = list(Comment.objects.filter(item__in=result_response).values('profile__photo',
+                                                                                   'profile__user__username',
+                                                                                   'date',
+                                                                                   'text','item_id'))
+    result_response = list(result_response.values('id', 'title', 'image',
+                                                  'Brand', 'short_description',
+                                                  'long_description', 'price')[page*9:(page+1)*9])
+    return JsonResponse({'Items': result_response,
+                        'Comments': result_comments})
 
 
 def showNext(request, page):

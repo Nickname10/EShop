@@ -13,7 +13,7 @@ urlpatterns = [
     path('item/<int:id>/comment/', views.addComment, name='comment'),
     path('cart/', include('cart.urls')),
     path('show/', views.showItems),
-
+    path('cabinet/', include('cabinet.urls'))
     # path('place_search/', views.pas, name='place_search'),
 
 ]

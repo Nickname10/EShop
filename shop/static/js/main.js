@@ -63,7 +63,9 @@ function ShowItems(data) {
         let iMaterialIconsPrefix = document.createElement("i");
         let textAreaIconPrefix = document.createElement("textarea");
         let labelIconPrefix = document.createElement("label");
-        //  let divModalCommentItems = document.createElement("div");
+
+        let divModalCommentItems = document.createElement("div");
+
         // need render comment between for and endfor
         let divModalFooter = document.createElement("div");
         let aModalCloseWaveEffect = document.createElement("a");
@@ -102,6 +104,7 @@ function ShowItems(data) {
         divModalComment.appendChild(divCommentTitle);
         divModalComment.appendChild(divCommentForm);
         divCommentForm.appendChild(divRowCommentField);
+        divModalComment.appendChild(divModalCommentItems);
         divRowCommentField.appendChild(formColS12);
         formColS12.appendChild(divRowCommentFieldUnderForm);
         divRowCommentFieldUnderForm.appendChild(divInputFieldColS6);
@@ -130,6 +133,7 @@ function ShowItems(data) {
         divModalDescription.classList.add("modal-description");
         divModalComment.classList.add("modal-comment");
         divCommentTitle.classList.add("comment-title");
+        divModalCommentItems.classList.add("modal-comment-items");
         divCommentForm.classList.add("comment-form");
         divRowCommentField.classList.add("row");
         divRowCommentField.id = "comment-field";
@@ -147,9 +151,9 @@ function ShowItems(data) {
         aBtnFloatingHalfway.classList.add("btn-floating", "halfway-fab", "waves-effect", "waves-light", "red", "js-add-cart");
         iMaterialIcons.classList.add("material-icons");
         divCardContent.classList.add("card-content");
-        spanCardTitleName.classList.add("card-titleName");
+        spanCardTitleName.classList.add("card-title-name");
         spanCardTitleCost.classList.add("card-cost");
-
+        textAreaIconPrefix.style.height = "43px";
 
         aModalTrigger.href = "#i" + item.id; // айтем айди будет получин возже item.id
         itemImageMaterialBoxed.src = "/media/" + item.image;//item.image.url
@@ -159,7 +163,8 @@ function ShowItems(data) {
         divModalImg.style.backgroundSize = "contain";
         divModalImg.style.width = "600px";
         aBtnFloatingHalfway.setAttribute("value", item.id)
-
+        labelIconPrefix.setAttribute('for', 'icon_prefix2');
+        labelIconPrefix.textContent = 'Your comment';
         aModalTrigger.textContent = "More";
         divSourceTitle.textContent = item.title;
         divSourceCost.textContent = "Cost : ";
@@ -174,10 +179,38 @@ function ShowItems(data) {
         divCommentTitle.textContent = "Comments :";
         iMaterialIcons.textContent = "add";
         iMaterialIconsPrefix.textContent = "mode_edit";
-        spanCardTitleName = item.title;
-        spanCardTitleCost = item.price;
+        spanCardTitleName.textContent = item.title;
+        spanCardTitleCost.textContent = item.price + "$";
+        let allComments = data["Comments"].filter(c => c.item_id === item.id);
+        allComments.forEach(c =>
+        {
+           let divCommentItem = document.createElement("div");
+           let divCommentItemInfo = document.createElement("div");
+           let divCommentInfo = document.createElement("div");
+           let divCommentDate = document.createElement("div");
+           let imgCommentItemLogo = document.createElement("img");
+           let pCommentNickname = document.createElement("p");
+           divCommentItem.appendChild(divCommentItemInfo);
+           divCommentItem.appendChild(divCommentInfo);
+           divCommentItem.appendChild(divCommentDate);
+           divCommentItemInfo.appendChild(imgCommentItemLogo);
+           divCommentItemInfo.appendChild(pCommentNickname);
+           divCommentItem.classList.add("comment-item");
+           divCommentItemInfo.classList.add("comment-item-info");
+           divCommentInfo.classList.add("coment-info");
+           divCommentDate.classList.add("commnet-date");
+           console.log(c);
+           imgCommentItemLogo.src= '/media/' +c.profile__photo;
+           imgCommentItemLogo.width = "40px";
+           imgCommentItemLogo.id = "comment-item-logo";
+           pCommentNickname.textContent = c.profile__user__username;
+           divModalCommentItems.appendChild(divCommentItem);
+           divCommentInfo.textContent = c.text ;
+           divCommentDate.textContent = c.date;
+
+        });
         cartLinkAdd();
-    })
+    });
 
 }
 
