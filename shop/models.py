@@ -30,6 +30,12 @@ COUNTRIES = [
     ('KZ', 'Kazakhstan')
 ]
 
+ROLES = [
+    ('MA', 'MANAGER'),
+    ('DE', 'DELIVER'),
+    ('US', 'USER')
+]
+
 
 class Item(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
@@ -48,16 +54,8 @@ class Item(models.Model):
 
 class SizeAndAvailable(models.Model):
     Item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    available = models.IntegerField('Доступное количество', default=1)
-    foot_size = models.IntegerField('Размер ', choices=FOOT_SIZES, null=True)
-
-
-class OrderedItem(models.Model):
-    pass
-
-
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    available = models.IntegerField('count', default=1)
+    foot_size = models.IntegerField('size', choices=FOOT_SIZES, null=True)
 
 
 class Profile(models.Model):
@@ -67,9 +65,15 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='users/', blank=True, default='users/default.png')
     phone_number = PhoneNumberField(blank=True)
     address = models.CharField(max_length=100, blank=True, null=True)
+    role = models.CharField('role', max_length=2, choices=ROLES, default='US', null=True)
 
     def __str__(self):
         return f'Profile for user {self.user.username}'
+
+
+class Order(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
 
 
 class Comment(models.Model):

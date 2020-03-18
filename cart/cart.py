@@ -15,13 +15,6 @@ class Cart(object):
         self.cart = cart
 
     def add(self, item, quantity=1, update_quantity=False):
-        '''
-        :param item:
-        :param quantity:
-        :param update_quantity:
-        :return:
-        добавляет элементы в корзину. если стоит флаг update_quantity,
-        '''
         item_id = str(item.id)
         if item_id not in self.cart:
             self.cart[item_id] = {

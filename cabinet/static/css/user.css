@@ -67,3 +67,26 @@ width: 80%;
     align-items: center;
     justify-content: center;
 }
+
+.long-description, .short-description{
+    word-break: break-all;
+    width: 33%;
+}
+#all-items{
+    width: 70%;
+}
+.manager-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 1000px;
+}
+.manager-form select{
+
+}
+
+#deliver{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}

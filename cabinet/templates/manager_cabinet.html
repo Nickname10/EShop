@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Кабинет пользователя</title>
+{% endblock %}
+{% block main %}
+    <section class="user">
+        <div class="userbox">
+            <div class="userbox-title">
+                <p>About you</p>
+            </div>
+            <div class="userbox-main-info">
+                <div class="userbox-info-image"><img src="{{ user.profile.photo.url }}" alt="{{ user.profile.name }}">
+                </div>
+                <div class="userbox-person-info">
+                    <p class="userbox-email-info">Email: {{ User.email }} </p>
+                    <div class="userbox-name-info">Name: {{ User.first_name }}</div>
+                    <div class="userbox-surname-info">Surname : {{ User.last_name }}</div>
+                    <div class="userbox-phone-info">Phone : {{ User.profile.phone_number }}</div>
+                    <div>Your address: {{ User.profile.address }}</div>
+                    <div>Your role: {{ User.profile.get_role_display }}</div>
+                </div>
+
+            </div>
+            <div class="userbox-change-options">
+                <div class="row user-change">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="manager-form">
+                          {{ form.as_p }}
+                        <input type="submit" value="Submit" class="btn">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="wish-list" id="all-items">
+            <div class="wish-title"><p> All Items </p></div>
+            {% for item in  Items %}
+
+                <div class="wish-item">
+                    <p class="wish-item-img"><img src="{{ item.image.url }}" alt="{{ item.title }} "></p>
+                    <p class="wish-item-name">{{ item.title }}</p>
+                    <p class="wish-item-cost">{{ item.price }} $</p>
+                    <div class="short-description">{{ item.short_description }}</div>
+                    <div class="long-description">{{ item.long_description }}</div>
+                    <form action="remove/{{ item.id }}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" class="btn" value="Удалить">
+                    </form>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Кабинет пользователя</title>
+{% endblock %}
+{% block main %}
+    <section class="user" id="deliver">
+    <h1 style="text-align: center">orders:</h1>
+            {% for order in  Order %}
+
+                <div class="wish-item">
+                    <p class="wish-item-img"><img src="{{ order.item.image.url }}" alt="{{ order.item.title }} "></p>
+                    <p class="wish-item-name">{{ order.item.title }}</p>
+                    <p class="wish-item-cost">{{ order.item.price }} $</p>
+                    <div class="wish-item-cost">{{ order.profile.phone_number }}</div>
+                    <div class="wish-item-cost">{{ order.profile.address }}</div>
+                    <form action="delivered/{{ order.id }}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" class="btn" value="delivered">
+                    </form>
+                </div>
+            {% endfor %}
+    </section>
+{% endblock %}
