@@ -5,13 +5,6 @@ from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=200, db_index=True)
-
-    def __str__(self):
-        return self.name
-
-
 FOOT_SIZES = [
     (i, f"{i}") for i in range(32, 48)
 ]
@@ -38,7 +31,6 @@ ROLES = [
 
 
 class Item(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
     title = models.CharField('Название', max_length=255)
     price = models.DecimalField('Стоимость, руб.', max_digits=10, decimal_places=2)
     discount_price = models.FloatField('Стоимость со скидкой, руб.', blank=True, null=True, default=None)

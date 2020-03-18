@@ -12,13 +12,13 @@ class UserForm(forms.Form):
     address = forms.CharField(label='Address', required=False, max_length=100)
 
 
-class ManagerForm(ModelForm):
+class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = ['image', 'Brand', 'title', 'short_description', 'long_description', 'isNewCollection',
+        fields = ['Brand', 'title', 'short_description', 'long_description', 'isNewCollection',
                   'price']
         labels = {
-            'image': _('image'),
+
             'Brand': _('brand'),
             'title': _('title'),
             'short_description': _('short description'),

@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 from django.contrib.auth import login
@@ -8,7 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import FormView
 
-from .models import Item, Comment, Category, WishItem
+from .models import Item, Comment,WishItem
 
 APP_URL = '/shop/'
 
@@ -60,7 +61,6 @@ class IndexPage(View):
         return render(request, "index.html",
                       context={"Items": Item.objects.all()[0:9],
                                "User": request.user,
-                               "Categories": Category.objects.all(),
                                })
 
     def post(self, request, *args, **kwargs):
@@ -84,6 +84,7 @@ class WishListView(View):
 
 class ItemsView(View):
     def get(self, request, *args, **kwargs):
+       # time.sleep(2)
         result_response = Item.objects.all()
         if request.GET.get("New") == "true":
             result_response = result_response.filter(isNewCollection=True)

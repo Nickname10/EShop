@@ -1,9 +1,9 @@
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from shop.models import Profile, Item, Order
-from .forms import UserForm, ManagerForm
+from .forms import UserForm, ItemForm
 
 
 class UserCabinet(View):
@@ -20,7 +20,7 @@ class UserCabinet(View):
                 return render(request, 'manager_cabinet.html', context={
                     "User": request.user,
                     "Items": Item.objects.all(),
-                    "form": ManagerForm()
+                    "form": ItemForm()
                 })
             elif request.user.profile.role == 'DE':
                 return render(request, 'deliver_cabinet.html', context={
@@ -50,6 +50,30 @@ class UserCabinet(View):
                         current_user.address = form.cleaned_data['address']
                     current_user.user.save()
                     current_user.save()
+                    return HttpResponseRedirect('/shop/cabinet/')
+            elif request.user.profile.role == 'MA':
+                item_form = ItemForm(request.POST)
+                if item_form.is_valid():
+                    item = Item(title=item_form.data.get('title'), Brand=item_form.data.get('Brand'),
+                                short_description=item_form.data.get('short_description'),
+                                long_description=item_form.data.get('long_description'),
+                                price=item_form.data.get('price'),
+                                isNewCollection=bool(item_form.data.get('isNewCollection')),
+                                image=request.FILES.get('photo')
+                                )
+                    item.save()
+                    return render(request, 'manager_cabinet.html', context={
+                        "User": request.user,
+                        "Items": Item.objects.all(),
+                        "form": ItemForm()
+                    })
+                else:
+                    return render(request, 'manager_cabinet.html', context={
+                        "User": request.user,
+                        "Items": Item.objects.all(),
+                        "form": ItemForm()
+                    })
+
         else:
             return redirect('/shop/login/')
 
@@ -60,7 +84,8 @@ class RemoveItemView(View):
             Item.objects.get(id=item_id).delete()
             return render(request, 'manager_cabinet.html', context={
                 "User": request.user,
-                "Items": Item.objects.all()
+                "Items": Item.objects.all(),
+                "form": ItemForm()
             })
 
         else:
@@ -81,3 +106,15 @@ class OrderDeliverView(View):
 
     def get(self, request, *args, **kwargs):
         return HttpResponseNotFound('<h1>Page not found</h1>')
+
+
+class CreateItem(View):
+    def post(self, request, *args, **kwargs):
+        print("helo")
+        item = Item(ItemForm(request.POST))
+        item.save()
+        return render(request, 'manager_cabinet.html', context={
+            "User": request.user,
+            "Items": Item.objects.all(),
+            "form": ItemForm()
+        })

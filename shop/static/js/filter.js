@@ -5,8 +5,7 @@ document.querySelector('#js-submit-form').addEventListener('click', () => {
 );
 
 function renderRequest() {
-
-
+    document.querySelector('.items-box').innerHTML = '<div class="progress" style="position: absolute; width: 60%;"><div class="indeterminate"></div></div>';
     let filters = document.getElementsByClassName('js-input-filter');
     const formRequest = {
         "Page": String(currentPage),

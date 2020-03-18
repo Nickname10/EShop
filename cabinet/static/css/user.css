@@ -12,7 +12,6 @@ html, body{
     border-right:1px solid rgba(156, 156, 156,0.5) ;
 }
 .userbox-main-info{
-    margin-top:10px;
     height: 37%;
     display: flex;
     justify-content: space-around;
@@ -79,7 +78,6 @@ width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 1000px;
 }
 .manager-form select{
 
@@ -89,4 +87,7 @@ width: 80%;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
+}
+.manager-form p select{
+    display: block;
 }

@@ -6,29 +6,28 @@
     <section class="user">
         <div class="userbox">
             <div class="userbox-title">
-                <p>About you</p>
+                <p>Add a new item</p>
             </div>
-            <div class="userbox-main-info">
-                <div class="userbox-info-image"><img src="{{ user.profile.photo.url }}" alt="{{ user.profile.name }}">
-                </div>
-                <div class="userbox-person-info">
-                    <p class="userbox-email-info">Email: {{ User.email }} </p>
-                    <div class="userbox-name-info">Name: {{ User.first_name }}</div>
-                    <div class="userbox-surname-info">Surname : {{ User.last_name }}</div>
-                    <div class="userbox-phone-info">Phone : {{ User.profile.phone_number }}</div>
-                    <div>Your address: {{ User.profile.address }}</div>
-                    <div>Your role: {{ User.profile.get_role_display }}</div>
-                </div>
 
-            </div>
-            <div class="userbox-change-options">
+            <div class="userbox-change-options" >
                 <div class="row user-change">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="manager-form">
-                          {{ form.as_p }}
-                        <input type="submit" value="Submit" class="btn">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>File image</span>
+                                <input type="file" name="photo">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <label for="photo">
+                                    <input id="photo" class="file-path validate" type="text">
+                                </label>
+                            </div>
                         </div>
+                        <div class="manager-form">
+                            {{ form.as_p }}
+                        </div>
+                        <input type="submit" value="Submit" class="btn">
                     </form>
 
                 </div>

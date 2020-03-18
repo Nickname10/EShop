@@ -26,7 +26,6 @@ class HTTP {
     }
 
     static Get(url, fun) {
-
         return fetch(url).then(this.checkStatus).then((response) =>
             response.json()).then(data => fun(data));
     }
@@ -228,23 +227,12 @@ function ShowItems(data) {
 }
 
 
-let slider = document.getElementById('test-slider');
-noUiSlider.create(slider, {
-    start: [10, 90],
-    connect: true,
-    step: 1,
-    orientation: 'horizontal', // 'horizontal' or 'vertical'
-    range: {
-        'min': 0,
-        'max': 100
-    },
-});
-
 
 function cartLinkAdd() {
     let linksAdd = document.getElementsByClassName("js-add-cart");
     for (let i = 0; i < linksAdd.length; i++) {
         linksAdd[i].addEventListener("click", () => {
+            M.toast({html: 'Успешно добвлено', classes:"notification-add"});
             HTTP.Get("cart/add/" + linksAdd[i].getAttribute("value"), addToCart);
         })
     }
@@ -269,14 +257,62 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Modal.init(elems);
 });
 
-document.querySelector('.cart-open').addEventListener('click', () => {
-    HTTP.Get('cart/view/', showCart);
-    document.querySelector('.user-cabinet').classList.toggle('disable');
-});
-document.querySelector('.cart-close').addEventListener('click', () => {
-    document.querySelector('.user-cabinet').classList.toggle('disable');
-    console.log("ЗАКРЫТО");
-});
+
+document.querySelector('.cart-open').addEventListener('click',()=>{
+     HTTP.Get('cart/view/', showCart);
+  let start = Date.now(); // запомнить время начала
+
+  let timer = setInterval(function() {
+    // сколько времени прошло с начала анимации?
+    let timePassed = Date.now() - start;
+
+    if (timePassed >= 1000) {
+      clearInterval(timer); // закончить анимацию через 2 секунды
+      return;
+    }
+
+    // отрисовать анимацию на момент timePassed, прошедший с начала анимации
+    draw(timePassed);
+
+  }, 10);
+
+  // в то время как timePassed идёт от 0 до 2000
+  // left изменяет значение от 0px до 400px
+  function draw(timePassed) {
+
+    document.querySelector('.user-cabinet').style.top = -900 + timePassed /1.1 + 'px';
+  }
+})
+document.querySelector('.cart-close').addEventListener('click',()=>{
+  let start = Date.now(); // запомнить время начала
+
+  let timer = setInterval(function() {
+    // сколько времени прошло с начала анимации?
+    let timePassed = Date.now() - start;
+
+    if (timePassed >= 1000) {
+      clearInterval(timer); // закончить анимацию через 2 секунды
+      return;
+    }
+
+    // отрисовать анимацию на момент timePassed, прошедший с начала анимации
+    draw(timePassed);
+
+  }, 10);
+
+  // в то время как timePassed идёт от 0 до 2000
+  // left изменяет значение от 0px до 400px
+  function draw(timePassed) {
+
+    document.querySelector('.user-cabinet').style.top = - timePassed /1.1 + 'px';
+  }
+
+})
+
+
+
+
+
 
 function showCart(data) {
     console.log(data);
@@ -316,6 +352,18 @@ function showCart(data) {
 
 
 }
+let slider = document.getElementById('test-slider');
+noUiSlider.create(slider, {
+    start: [20, 1000],
+    connect: true,
+    step: 1,
+    orientation: 'horizontal', // 'horizontal' or 'vertical'
+    range: {
+        'min': 20,
+        'max': 1000
+    },
+});
+
 
 function removeCart(data) {
     showCart(data);
@@ -325,18 +373,20 @@ function addEventFavorite() {
     let btnAddToWishList = document.getElementsByClassName('js-add-to-wish-list');
     for (let i = 0; i < btnAddToWishList.length; i++) {
         btnAddToWishList[i].addEventListener('click', () => {
-        HTTP.Get('addToList/'+btnAddToWishList[i].getAttribute('value'),checkResponseAddToWishList)
+            HTTP.Get('addToList/' + btnAddToWishList[i].getAttribute('value'), checkResponseAddToWishList)
         })
     }
     console.log('Sucesfull')
 }
+
 function checkResponseAddToWishList(data) {
-console.log(data.Status);
-if (data.Status === "REDIRECT") {
-    window.location.replace('/shop/login/');
-}
+    console.log(data.Status);
+    if (data.Status === "REDIRECT") {
+        window.location.replace('/shop/login/');
+    }
 
 }
+
 const object = document.querySelector('.noUi-handle-lower');
 var value = object.getAttribute("aria-valuemax");
 
@@ -344,10 +394,10 @@ const leftTurn = document.querySelector('.noUi-handle-lower');
 const rigthTurn = document.querySelector('.noUi-handle-upper');
 
 leftTurn.addEventListener('mouseup', () => {
-    document.querySelector('.slider-value-min').textContent = `min: ${leftTurn.getAttribute('aria-valuenow')}`
+    document.querySelector('.slider-value-min').textContent = `min: ${leftTurn.getAttribute('aria-valuenow')}$`
 });
 rigthTurn.addEventListener('mouseup', () => {
-    document.querySelector('.slider-value-max').textContent = `max: ${rigthTurn.getAttribute('aria-valuenow')}`
+    document.querySelector('.slider-value-max').textContent = `max: ${rigthTurn.getAttribute('aria-valuenow')}$`
 });
 console.log(value);
 document.addEventListener('DOMContentLoaded', function () {

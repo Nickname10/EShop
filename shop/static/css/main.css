@@ -180,6 +180,7 @@ nav{
 
 /* ------------------------ */
 .user-cabinet{
+    top:-900px;
     color: #000;
     transform: translateX(-326px);
     z-index: 100;
@@ -468,4 +469,10 @@ nav{
     .items-box{
         grid-template-columns: repeat(2, 1fr);
     }
+}
+.brand{
+
+}
+.notification-add{
+    margin-top: 700px;
 }
