@@ -2,9 +2,8 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
+
 }
-
-
 .burger{
     display: none;
     cursor: pointer;
@@ -113,7 +112,7 @@
 
 }
 .item-price:after{
-    content: ' руб.';
+    content: ' Ñ€ÑƒÐ±.';
 }
 
 .item-img {
@@ -366,7 +365,11 @@ nav{
 }
 .modal-comment-items{
     height: 100px;
-
+}
+.slider-value{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .card-content{
     word-break: break-all;
@@ -428,6 +431,30 @@ nav{
 }
 .delete-cart-item:hover{
     color:red;
+}
+.slider-value-min{
+    margin-right: 10px;
+}
+.slider-value-max{
+    margin-left: 10px;
+}
+.slider-value{
+
+    margin-bottom: 20px;
+}
+.search{
+    display: flex;
+    width: 100%;
+   justify-content: flex-end;
+}
+.search-wrapper{
+    margin-right:100px ;
+    width: 73%;
+    border-bottom: 1px solid rgba(156, 156, 156,0.2);
+
+}
+.search-options{
+    margin-bottom: 0;
 }
 @media screen and (max-width:992px){
 

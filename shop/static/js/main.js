@@ -1,6 +1,7 @@
 const buttonNextTen = document.querySelector('.next-ten');
 const buttonPreviousTen = document.querySelector('.previous-ten');
 cartLinkAdd();
+addEventFavorite();
 var currentPage = 0;
 buttonNextTen.addEventListener("click", () => {
     currentPage++;
@@ -51,6 +52,9 @@ function ShowItems(data) {
         let spanSourceCost = document.createElement("span");
         let divSourceBrand = document.createElement("div");
         let spanSourceBrand = document.createElement("span");
+        let divSourceInfoButtons = document.createElement("div");
+        let divSourceInfoBtnAddToCart = document.createElement("div");
+        let divSourceInfoBtnAddToWishList = document.createElement("div");
         let divModalDescTitle = document.createElement("div");
         let divModalDescription = document.createElement("div");
         let divModalComment = document.createElement("div");
@@ -101,6 +105,9 @@ function ShowItems(data) {
         divSourceInfo.appendChild(divSourceTitle);
         divSourceInfo.appendChild(divSourceCost);
         divSourceInfo.appendChild(divSourceBrand);
+        divSourceInfo.appendChild(divSourceInfoButtons);
+        divSourceInfoButtons.appendChild(divSourceInfoBtnAddToCart);
+        divSourceInfoButtons.appendChild(divSourceInfoBtnAddToWishList);
         divModalComment.appendChild(divCommentTitle);
         divModalComment.appendChild(divCommentForm);
         divCommentForm.appendChild(divRowCommentField);
@@ -129,6 +136,8 @@ function ShowItems(data) {
         divSourceTitle.classList.add("source-title");
         divSourceCost.classList.add("source-cost");
         divSourceBrand.classList.add("source-brand");
+        divSourceInfoBtnAddToCart.classList.add("btn", "js-add-cart");
+        divSourceInfoBtnAddToWishList.classList.add("btn", "js-add-to-wish-list");
         divModalDescTitle.classList.add("modal-desc-title");
         divModalDescription.classList.add("modal-description");
         divModalComment.classList.add("modal-comment");
@@ -173,6 +182,10 @@ function ShowItems(data) {
         divSourceBrand.textContent = "Brand: ";
         divSourceBrand.appendChild(spanSourceBrand);
         spanSourceBrand.textContent = item.Brand;
+        divSourceInfoBtnAddToCart.textContent = "Add to cart";
+        divSourceInfoBtnAddToWishList.textContent = "Add to wish list";
+        divSourceInfoBtnAddToCart.setAttribute("value", item.id);
+        divSourceInfoBtnAddToWishList.setAttribute("value", item.id);
         pShortDescription.textContent = item.short_description;
         divModalDescTitle.textContent = "Description";
         divModalDescription.textContent = item.long_description;
@@ -182,34 +195,34 @@ function ShowItems(data) {
         spanCardTitleName.textContent = item.title;
         spanCardTitleCost.textContent = item.price + "$";
         let allComments = data["Comments"].filter(c => c.item_id === item.id);
-        allComments.forEach(c =>
-        {
-           let divCommentItem = document.createElement("div");
-           let divCommentItemInfo = document.createElement("div");
-           let divCommentInfo = document.createElement("div");
-           let divCommentDate = document.createElement("div");
-           let imgCommentItemLogo = document.createElement("img");
-           let pCommentNickname = document.createElement("p");
-           divCommentItem.appendChild(divCommentItemInfo);
-           divCommentItem.appendChild(divCommentInfo);
-           divCommentItem.appendChild(divCommentDate);
-           divCommentItemInfo.appendChild(imgCommentItemLogo);
-           divCommentItemInfo.appendChild(pCommentNickname);
-           divCommentItem.classList.add("comment-item");
-           divCommentItemInfo.classList.add("comment-item-info");
-           divCommentInfo.classList.add("coment-info");
-           divCommentDate.classList.add("commnet-date");
-           console.log(c);
-           imgCommentItemLogo.src= '/media/' +c.profile__photo;
-           imgCommentItemLogo.width = "40px";
-           imgCommentItemLogo.id = "comment-item-logo";
-           pCommentNickname.textContent = c.profile__user__username;
-           divModalCommentItems.appendChild(divCommentItem);
-           divCommentInfo.textContent = c.text ;
-           divCommentDate.textContent = c.date;
+        allComments.forEach(c => {
+            let divCommentItem = document.createElement("div");
+            let divCommentItemInfo = document.createElement("div");
+            let divCommentInfo = document.createElement("div");
+            let divCommentDate = document.createElement("div");
+            let imgCommentItemLogo = document.createElement("img");
+            let pCommentNickname = document.createElement("p");
+            divCommentItem.appendChild(divCommentItemInfo);
+            divCommentItem.appendChild(divCommentInfo);
+            divCommentItem.appendChild(divCommentDate);
+            divCommentItemInfo.appendChild(imgCommentItemLogo);
+            divCommentItemInfo.appendChild(pCommentNickname);
+            divCommentItem.classList.add("comment-item");
+            divCommentItemInfo.classList.add("comment-item-info");
+            divCommentInfo.classList.add("coment-info");
+            divCommentDate.classList.add("commnet-date");
+            console.log(c);
+            imgCommentItemLogo.src = '/media/' + c.profile__photo;
+            imgCommentItemLogo.width = "40px";
+            imgCommentItemLogo.id = "comment-item-logo";
+            pCommentNickname.textContent = c.profile__user__username;
+            divModalCommentItems.appendChild(divCommentItem);
+            divCommentInfo.textContent = c.text;
+            divCommentDate.textContent = c.date;
 
         });
         cartLinkAdd();
+        addEventFavorite();
     });
 
 }
@@ -235,6 +248,7 @@ function cartLinkAdd() {
             HTTP.Get("cart/add/" + linksAdd[i].getAttribute("value"), addToCart);
         })
     }
+
 
 }
 
@@ -298,12 +312,45 @@ function showCart(data) {
         document.querySelector('.user-cart-items').appendChild(divCartItems);
     });
 
-    document.querySelector('.cart-total-cost-p').textContent ="Total price: " + data.Price + "$";
+    document.querySelector('.cart-total-cost-p').textContent = "Total price: " + data.Price + "$";
 
 
 }
 
 function removeCart(data) {
     showCart(data);
+}
+
+function addEventFavorite() {
+    let btnAddToWishList = document.getElementsByClassName('js-add-to-wish-list');
+    for (let i = 0; i < btnAddToWishList.length; i++) {
+        btnAddToWishList[i].addEventListener('click', () => {
+        HTTP.Get('addToList/'+btnAddToWishList[i].getAttribute('value'),checkResponseAddToWishList)
+        })
+    }
+    console.log('Sucesfull')
+}
+function checkResponseAddToWishList(data) {
+console.log(data.Status);
+if (data.Status === "REDIRECT") {
+    window.location.replace('/shop/login/');
+}
 
 }
+const object = document.querySelector('.noUi-handle-lower');
+var value = object.getAttribute("aria-valuemax");
+
+const leftTurn = document.querySelector('.noUi-handle-lower');
+const rigthTurn = document.querySelector('.noUi-handle-upper');
+
+leftTurn.addEventListener('mouseup', () => {
+    document.querySelector('.slider-value-min').textContent = `min: ${leftTurn.getAttribute('aria-valuenow')}`
+});
+rigthTurn.addEventListener('mouseup', () => {
+    document.querySelector('.slider-value-max').textContent = `max: ${rigthTurn.getAttribute('aria-valuenow')}`
+});
+console.log(value);
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems);
+});
