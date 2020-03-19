@@ -1,8 +1,8 @@
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
-from shop.models import Profile, Item, Order
+from shop.models import Profile, Item, Order, WishItem
 from .forms import UserForm, ItemForm
 
 
@@ -82,12 +82,7 @@ class RemoveItemView(View):
     def post(self, request, item_id, *args, **kwargs):
         if request.user.is_authenticated and request.user.profile.role == 'MA':
             Item.objects.get(id=item_id).delete()
-            return render(request, 'manager_cabinet.html', context={
-                "User": request.user,
-                "Items": Item.objects.all(),
-                "form": ItemForm()
-            })
-
+            return redirect('/shop/cabinet/')
         else:
             HttpResponseNotFound('<h1>Page not found</h1>')
 
@@ -99,10 +94,7 @@ class OrderDeliverView(View):
     def post(self, request, order_id, *args, **kwargs):
         if request.user.is_authenticated and request.user.profile.role == 'DE':
             Order.objects.get(id=order_id).delete()
-            return render(request, 'deliver_cabinet.html', context={
-                "User": request.user,
-                "Order": Order.objects.all()
-            })
+            return redirect('/shop/cabinet/')
 
     def get(self, request, *args, **kwargs):
         return HttpResponseNotFound('<h1>Page not found</h1>')
@@ -118,3 +110,11 @@ class CreateItem(View):
             "Items": Item.objects.all(),
             "form": ItemForm()
         })
+
+
+def removeItem(request, item_id):
+    print("helo")
+    wish_item = get_object_or_404(WishItem, id=item_id)
+    if request.user.profile == wish_item.profile:
+        wish_item.delete()
+    return HttpResponse("OK")

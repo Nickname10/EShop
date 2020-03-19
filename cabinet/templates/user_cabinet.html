@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'user_base.html' %}
 {% load static %}
 {% block title %}
 
-    <title>Кабинет пользователя</title>
-    <script src="{% static 'js/user.js' %}" defer></script>
+    <title>Cabinet</title>
 {% endblock %}
 {% block main %}
     <section class="user">
@@ -12,7 +11,8 @@
                 <p>About you</p>
             </div>
             <div class="userbox-main-info">
-                <div class="userbox-info-image"><img src="{{ user.profile.photo.url }}" alt="{{ user.profile.name }}">
+                <div class="userbox-info-image"><img src="{{ user.profile.photo.url }}" alt="{{ user.profile.name }}"
+                                                     style="height: 250px; width: 250px">
                 </div>
                 <div class="userbox-person-info">
                     <p class="userbox-email-info">Email: {{ User.email }} </p>
@@ -25,7 +25,7 @@
             </div>
             <div class="userbox-change-options">
                 <div class="row user-change">
-                    <form method="post"  action="" enctype="multipart/form-data" >
+                    <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="file-field input-field">
                             <div class="btn">
@@ -34,7 +34,7 @@
                             </div>
                             <div class="file-path-wrapper">
                                 <label for="photo">
-                                    <input id="photo" class="file-path validate" type="text" >
+                                    <input id="photo" class="file-path validate" type="text">
                                 </label>
                             </div>
                         </div>
@@ -42,8 +42,8 @@
                         <input type="submit" value="Submit" class="btn">
                     </form>
 
+                </div>
             </div>
-        </div>
         </div>
         <div class="wish-list">
             <div class="wish-title"><p> Wish List</p></div>
@@ -53,9 +53,10 @@
                     <p class="wish-item-img"><img src="{{ wish.item.image.url }}" alt="{{ wish.item.title }} "></p>
                     <p class="wish-item-name">{{ wish.item.title }}</p>
                     <p class="wish-item-cost">{{ wish.item.price }} $</p>
-                    <a class="btn-floating btn waves-effect waves-light red js-add-cart"><i
+                    <a class="btn-floating btn waves-effect waves-light red js-add-cart" value="{{ wish.id }}"><i
                             class="material-icons">add</i></a>
-                    <a class="btn-floating btn waves-effect waves-light red js-remove-list-item"><i
+                    <a class="btn-floating btn waves-effect waves-light red js-remove-list-item"
+                       value="{{ wish.id }}"><i
                             class="material-icons">close</i></a>
                 </div>
             {% endfor %}

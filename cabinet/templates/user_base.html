@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/nouislider.css' %}">
     <link rel="stylesheet" href="{% static 'css/user.css' %}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="{% static 'js/nouislider.js' %} "></script>
-    <script src="{% static 'js/main.js' %}" defer></script>
-    <script src="{% static 'js/filter.js' %}" defer></script>
-    <script src="{% static 'js/scroll.js' %}" defer></script>
+    <script src="{% static 'js/user.js' %} " defer></script>
     {% block title %}
     {% endblock %}
 
@@ -36,11 +33,10 @@
                         </div>
                     </a>
                     </li>
-                    <li><a href="http://127.0.0.1:8000/shop/logout">logout</a></li>
-
+                    <li><a href="http://127.0.0.1:8000/shop/logout">Выйти</a></li>
                     <li>
                         <div class="user-cabinet">
-                            <div class="user-cart"><p>Your cart</p></div>
+                            <div class="user-cart"><p>Корзина</p></div>
                             <div class="user-cart-items">
                             </div>
                             <div class="cart-total-cost">
@@ -73,7 +69,8 @@
                         </div>
                     </a>
                     </li>
-                    <li><a href="/shop/register">register</a></li>
+                    <li><a href="http://127.0.0.1:8000/shop/register">register</a></li>
+                    <li><a href="#"><i class="material-icons">search</i></a></li>
                     <li>
                         <div class="user-cabinet">
                             <div class="user-cart"><p>your cart</p></div>

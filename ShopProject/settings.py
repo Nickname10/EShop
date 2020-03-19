@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'crispy_forms',
     'phonenumber_field',
+    'django.contrib.sites',
+    'account'
    # 'cabinet.apps.CabinetConfig'
 
 ]
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'account.middleware.LocaleMiddleware',
+    'account.middleware.TimezoneMiddleware'
 ]
 
 ROOT_URLCONF = 'ShopProject.urls'
@@ -69,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'account.context_processors.account'
             ],
         },
     },
@@ -132,3 +137,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 CART_SESSION_ID = 'cart'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'postManDjango228@gmail.com'
+EMAIL_HOST_PASSWORD = 'Vfrcrhen2000'
+EMAIL_PORT = 587

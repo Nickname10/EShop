@@ -2,6 +2,7 @@ const buttonNextTen = document.querySelector('.next-ten');
 const buttonPreviousTen = document.querySelector('.previous-ten');
 cartLinkAdd();
 addEventFavorite();
+addEventBuy();
 var currentPage = 0;
 buttonNextTen.addEventListener("click", () => {
     currentPage++;
@@ -79,8 +80,13 @@ function ShowItems(data) {
         let pShortDescription = document.createElement("p");
         let spanCardTitleName = document.createElement("span");
         let spanCardTitleCost = document.createElement("span");
+        let buttonSubmitComment = document.createElement("button");
+        buttonSubmitComment.classList.add('btn', 'submit-comment');
+        buttonSubmitComment.setAttribute('type', 'submit');
+        buttonSubmitComment.setAttribute('name', 'action');
+        buttonSubmitComment.textContent = 'Submit';
         document.querySelector(".items-box").appendChild(divRow);
-
+        formColS12.innerHTML = getCsrfToken();
         divRow.appendChild(divCols12m6rowItems);
         divCols12m6rowItems.appendChild(divCard);
         divCard.appendChild(divCardImage);
@@ -94,7 +100,7 @@ function ShowItems(data) {
         aBtnFloatingHalfway.appendChild(iMaterialIcons);
         divModal.appendChild(divModalContent);
         divModal.appendChild(divModalFooter);
-        divModalFooter.appendChild(aModalCloseWaveEffect)
+        divModalFooter.appendChild(aModalCloseWaveEffect);
         divModalContent.appendChild(divModalContentSource);
         divModalContent.appendChild(divModalDescTitle);
         divModalContent.appendChild(divModalDescription);
@@ -117,6 +123,7 @@ function ShowItems(data) {
         divInputFieldColS6.appendChild(iMaterialIconsPrefix);
         divInputFieldColS6.appendChild(textAreaIconPrefix);
         divInputFieldColS6.appendChild(labelIconPrefix);
+        divInputFieldColS6.appendChild(buttonSubmitComment);
         divCardContent.appendChild(pShortDescription);
         spanCardTitle.appendChild(spanCardTitleName);
         spanCardTitle.appendChild(spanCardTitleCost);
@@ -143,12 +150,11 @@ function ShowItems(data) {
         divCommentTitle.classList.add("comment-title");
         divModalCommentItems.classList.add("modal-comment-items");
         divCommentForm.classList.add("comment-form");
-        divRowCommentField.classList.add("row");
+        //divRowCommentField.classList.add("row");
         divRowCommentField.id = "comment-field";
         formColS12.classList.add("col", "s12");
         divInputFieldColS6.classList.add("input-field", "col", "s6");
         divInputFieldColS6.id = "ww";
-        divRowCommentFieldUnderForm.classList.add("row");
         divRowCommentField.id = "ww";
         iMaterialIconsPrefix.classList.add("material-icons", "prefix");
         textAreaIconPrefix.id = "icon_prefix2";
@@ -162,7 +168,9 @@ function ShowItems(data) {
         spanCardTitleName.classList.add("card-title-name");
         spanCardTitleCost.classList.add("card-cost");
         textAreaIconPrefix.style.height = "43px";
-
+        textAreaIconPrefix.name = "comment";
+        formColS12.action="comment/"+item.id+"/";
+        formColS12.method="post";
         aModalTrigger.href = "#i" + item.id; // айтем айди будет получин возже item.id
         itemImageMaterialBoxed.src = "/media/" + item.image;//item.image.url
         divModal.id = "i" + item.id;
@@ -206,11 +214,11 @@ function ShowItems(data) {
             divCommentItem.appendChild(divCommentDate);
             divCommentItemInfo.appendChild(imgCommentItemLogo);
             divCommentItemInfo.appendChild(pCommentNickname);
+
             divCommentItem.classList.add("comment-item");
             divCommentItemInfo.classList.add("comment-item-info");
             divCommentInfo.classList.add("coment-info");
             divCommentDate.classList.add("commnet-date");
-            console.log(c);
             imgCommentItemLogo.src = '/media/' + c.profile__photo;
             imgCommentItemLogo.width = "40px";
             imgCommentItemLogo.id = "comment-item-logo";
@@ -219,20 +227,21 @@ function ShowItems(data) {
             divCommentInfo.textContent = c.text;
             divCommentDate.textContent = c.date;
 
+
         });
         cartLinkAdd();
         addEventFavorite();
+      //  addEventComment();
     });
 
 }
-
 
 
 function cartLinkAdd() {
     let linksAdd = document.getElementsByClassName("js-add-cart");
     for (let i = 0; i < linksAdd.length; i++) {
         linksAdd[i].addEventListener("click", () => {
-            M.toast({html: 'Успешно добвлено', classes:"notification-add"});
+
             HTTP.Get("cart/add/" + linksAdd[i].getAttribute("value"), addToCart);
         })
     }
@@ -241,7 +250,7 @@ function cartLinkAdd() {
 }
 
 function addToCart(data) {
-    //Добавить функцию которая выведет, что элемент успешно добавлен в корзину
+     M.toast({html: 'Успешно добвлено', classes: "notification-add"});
     showCart(data);
 }
 
@@ -258,67 +267,63 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-document.querySelector('.cart-open').addEventListener('click',()=>{
-     HTTP.Get('cart/view/', showCart);
-  let start = Date.now(); // запомнить время начала
+document.querySelector('.cart-open').addEventListener('click', () => {
+    HTTP.Get('cart/view/', showCart);
+    let start = Date.now(); // запомнить время начала
 
-  let timer = setInterval(function() {
-    // сколько времени прошло с начала анимации?
-    let timePassed = Date.now() - start;
+    let timer = setInterval(function () {
+        // сколько времени прошло с начала анимации?
+        let timePassed = Date.now() - start;
 
-    if (timePassed >= 1000) {
-      clearInterval(timer); // закончить анимацию через 2 секунды
-      return;
+        if (timePassed >= 1000) {
+            clearInterval(timer); // закончить анимацию через 2 секунды
+            return;
+        }
+
+        // отрисовать анимацию на момент timePassed, прошедший с начала анимации
+        draw(timePassed);
+
+    }, 10);
+
+    // в то время как timePassed идёт от 0 до 2000
+    // left изменяет значение от 0px до 400px
+    function draw(timePassed) {
+
+        document.querySelector('.user-cabinet').style.top = -900 + timePassed / 1.1 + 'px';
+    }
+})
+document.querySelector('.cart-close').addEventListener('click', () => {
+    let start = Date.now(); // запомнить время начала
+
+    let timer = setInterval(function () {
+        // сколько времени прошло с начала анимации?
+        let timePassed = Date.now() - start;
+
+        if (timePassed >= 1000) {
+            clearInterval(timer); // закончить анимацию через 2 секунды
+            return;
+        }
+
+        // отрисовать анимацию на момент timePassed, прошедший с начала анимации
+        draw(timePassed);
+
+    }, 10);
+
+    // в то время как timePassed идёт от 0 до 2000
+    // left изменяет значение от 0px до 400px
+    function draw(timePassed) {
+
+        document.querySelector('.user-cabinet').style.top = -timePassed / 1.1 + 'px';
     }
 
-    // отрисовать анимацию на момент timePassed, прошедший с начала анимации
-    draw(timePassed);
-
-  }, 10);
-
-  // в то время как timePassed идёт от 0 до 2000
-  // left изменяет значение от 0px до 400px
-  function draw(timePassed) {
-
-    document.querySelector('.user-cabinet').style.top = -900 + timePassed /1.1 + 'px';
-  }
 })
-document.querySelector('.cart-close').addEventListener('click',()=>{
-  let start = Date.now(); // запомнить время начала
-
-  let timer = setInterval(function() {
-    // сколько времени прошло с начала анимации?
-    let timePassed = Date.now() - start;
-
-    if (timePassed >= 1000) {
-      clearInterval(timer); // закончить анимацию через 2 секунды
-      return;
-    }
-
-    // отрисовать анимацию на момент timePassed, прошедший с начала анимации
-    draw(timePassed);
-
-  }, 10);
-
-  // в то время как timePassed идёт от 0 до 2000
-  // left изменяет значение от 0px до 400px
-  function draw(timePassed) {
-
-    document.querySelector('.user-cabinet').style.top = - timePassed /1.1 + 'px';
-  }
-
-})
-
-
-
-
 
 
 function showCart(data) {
-    console.log(data);
+
     document.querySelector('.user-cart-items').innerHTML = "";
     data["Items"].forEach(item => {
-        console.log(item.id);
+
         let divCartItems = document.createElement("div");
         let pCartItemsImg = document.createElement("p");
         let imgItem = document.createElement("img");
@@ -352,20 +357,22 @@ function showCart(data) {
 
 
 }
+
 let slider = document.getElementById('test-slider');
 noUiSlider.create(slider, {
-    start: [20, 1000],
+    start: [20, 999],
     connect: true,
     step: 1,
     orientation: 'horizontal', // 'horizontal' or 'vertical'
     range: {
         'min': 20,
-        'max': 1000
+        'max': 999
     },
 });
 
 
 function removeCart(data) {
+    M.toast({html: 'Успешно удалено', classes: "notification-add"});
     showCart(data);
 }
 
@@ -376,14 +383,13 @@ function addEventFavorite() {
             HTTP.Get('addToList/' + btnAddToWishList[i].getAttribute('value'), checkResponseAddToWishList)
         })
     }
-    console.log('Sucesfull')
 }
 
 function checkResponseAddToWishList(data) {
-    console.log(data.Status);
     if (data.Status === "REDIRECT") {
         window.location.replace('/shop/login/');
     }
+     M.toast({html: 'Добавлено в список желаемого', classes: "notification-add"});
 
 }
 
@@ -399,8 +405,33 @@ leftTurn.addEventListener('mouseup', () => {
 rigthTurn.addEventListener('mouseup', () => {
     document.querySelector('.slider-value-max').textContent = `max: ${rigthTurn.getAttribute('aria-valuenow')}$`
 });
-console.log(value);
+
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.dropdown-trigger');
     var instances = M.Dropdown.init(elems);
 });
+
+document.querySelector('.js-search').addEventListener('click', () => {
+
+    HTTP.Get('search/?str=' + document.querySelector('#search').value, ShowItems).then(() => {
+        let elements = document.querySelectorAll('.materialboxed');
+        let instancesOne = M.Materialbox.init(elements);
+        let elems = document.querySelectorAll('.modal');
+        let instancesTwo = M.Modal.init(elems);
+    });
+
+});
+function addEventBuy()
+{
+    document.querySelector('.js-btn-buy').addEventListener('click',()=>{
+        HTTP.Get('/shop/cart/buy/',(data)=>{
+           if  (data["response"] === "OK"){
+             M.toast({html: 'Заказ добавлен в очередь', classes: "notification-add"});
+           }
+           else
+           {
+               window.location.replace('/shop/login/');
+           }
+        });
+    })
+}

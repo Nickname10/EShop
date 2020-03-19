@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>hello</title>
+    <title>Shop</title>
+    <script>
+        function getCsrfToken() {
+            return '{% csrf_token %}';
+        }
+    </script>
 {% endblock %}
 {% block main %}
+    <section class="search">
+        <div class="nav-wrapper search-wrapper">
+            <form>
+                <div class="input-field search-options">
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search"><i class="material-icons js-search">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+    </section>
     <a class="waves-effect waves-light btn-large btn-fitler-mobile">Filter</a>
     <div class="main-box">
         <div class="filter filter-box">
@@ -12,8 +28,8 @@
             </div>
             <div class="filter-noUiSlider">
                 <div class="slider-value">
-                    <div class="slider-value-min">min:20$</div>
-                    <div class="slider-value-max">max:1000$</div>
+                    <div class="slider-value-min">min: 20$</div>
+                    <div class="slider-value-max">max: 999$</div>
                 </div>
                 <div id="test-slider"></div>
             </div>
@@ -182,7 +198,8 @@
                                             <div class="source-info">
                                                 <div class="source-title"> {{ item.title }}</div>
                                                 <div class="source-cost">Cost : <span>{{ item.price }}</span> $</div>
-                                                <div class="source-brand">Brand : <span>{{ item.get_Brand_display }}</span></div>
+                                                <div class="source-brand">Brand :
+                                                    <span>{{ item.get_Brand_display }}</span></div>
 
                                                 <div>
                                                     <div class="btn js-add-cart" value="{{ item.id }}">Add to cart</div>
@@ -201,13 +218,18 @@
                                             <div class="comment-title">Comments:</div>
                                             <div class="comment-form">
                                                 <!-- <div class="row " id="comment-field"> -->
-                                                <form class="col s12">
+                                                <form class="col s12" method="post" action="comment/{{ item.id }}/">
                                                     <!-- <div class="row" id="comment-field">-->
+                                                    {% csrf_token %}
                                                     <div class="input-field col s6" id="ww">
                                                         <i class="material-icons prefix">mode_edit</i>
-                                                        <textarea id="icon_prefix2"
+                                                        <textarea id="icon_prefix2" name="comment"
                                                                   class="materialize-textarea"></textarea>
                                                         <label for="icon_prefix2">Your comment</label>
+                                                        <button class="btn waves-effect waves-light sumbit-comment"
+                                                                type="submit" name="">Submit
+                                                            <i class="material-icons right">send</i>
+                                                        </button>
                                                     </div>
                                                     <!--  </div> -->
                                                 </form>
